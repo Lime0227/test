@@ -906,8 +906,8 @@ async function startSpeechRecognition() {
     speechMicStream = await navigator.mediaDevices.getUserMedia({
       audio: {
         channelCount: 1,
-        echoCancellation: true,
-        noiseSuppression: true,
+        echoCancellation: false,
+        noiseSuppression: false,
         autoGainControl: true
       }
     });
@@ -1274,7 +1274,7 @@ async function compareSpeechPCMWithReference(
 
     if (
       userSamples.length <
-      3200
+      1200
     ) {
       setSpeechRetry(
         "🤔 錄到的聲音太短或太小聲。",
@@ -1610,15 +1610,15 @@ function trimSpeechSilence(
   }
 
   if (
-    peak < 0.003
+    peak < 0.0008
   ) {
     return new Float32Array(0);
   }
 
   const threshold =
     Math.max(
-      0.0045,
-      peak * 0.045
+      0.001,
+      peak * 0.015
     );
 
   let start = 0;
